@@ -1,9 +1,3 @@
-# Calculate the mean of a List
-def mean(numbers):
-    if not numbers:
-        raise ValueError("The list is empty. Cannot compute the mean.")
-    return sum(numbers) / len(numbers)
-
 # Calculate the median of a List
 def median(numbers):
     if not numbers:
@@ -32,9 +26,4 @@ def mode(numbers):
 
     return min(modes)  
 
-# Example usage:
-if __name__ == "__main__":
-    data = [4, 1, 2, 2, 3, 5, 4]
-    print("Mean:", mean(data))  # Output: Mean
-    print("Median:", median(data))  # Output: Median
-    print("Mode:", mode(data))  # Output: Mode
+
