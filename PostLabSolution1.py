@@ -1,3 +1,9 @@
+# Calculate the mean of a List
+def calculate_mean(numbers):
+    return sum(numbers) / len(numbers) 
+    if numbers 
+    else 0
+
 # Calculate the median of a List
 def median(numbers):
     if not numbers:
