@@ -1,12 +1,12 @@
 import random
 
-NounFile = open("nouns.txt")
+NounFile = open("/workspaces/GithubLabExerRepo/Lab2/nouns.txt")
 Nouns = NounFile.read().splitlines()
-VerbFile = open("verbs.txt")
+VerbFile = open("/workspaces/GithubLabExerRepo/Lab2/verbs.txt")
 Verbs = VerbFile.read().splitlines()
-ArticleFile = open("articles.txt")
+ArticleFile = open("/workspaces/GithubLabExerRepo/Lab2/articles.txt")
 Articles = ArticleFile.read().splitlines()
-PrepositionFile = open("preposition.txt")
+PrepositionFile = open("/workspaces/GithubLabExerRepo/Lab2/preposition.txt")
 Prepositions = PrepositionFile.read().splitlines()
 
 def make_sentence():
