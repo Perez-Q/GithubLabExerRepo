@@ -1,8 +1,6 @@
 # Calculate the mean of a List
 def calculate_mean(numbers):
-    return sum(numbers) / len(numbers) 
-    if numbers 
-    else 0
+    return sum(numbers) / len(numbers) if numbers else 0
 
 # Calculate the median of a List
 def median(numbers):
@@ -32,4 +30,17 @@ def mode(numbers):
 
     return min(modes)  
 
+if __name__ == "__main__":
+    test_data = [4, 1, 2, 2, 3, 5, 4]
 
+    # Calculate and print the mean
+    mean_result = calculate_mean(test_data)
+    print(f"Mean: {mean_result}")
+
+    # Calculate and print the median
+    median_result = median(test_data)
+    print(f"Median: {median_result}")
+
+    # Calculate and print the mode
+    mode_result = mode(test_data)
+    print(f"Mode: {mode_result}")
