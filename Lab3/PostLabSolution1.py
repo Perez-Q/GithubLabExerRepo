@@ -37,11 +37,15 @@ class Student(object):
             return f"Both scores are equal" 
         
     def methods_name(self,name1,name2):
-        if(name1.name<name2.name):
+        num1 = name1.name
+        num2 = name2.name
+        value1 = sum([ord(c) for c in num1]) #convert the string name to a ASCII equivalent then sum.
+        value2 = sum([ord(c) for c in num2])
+        if(value1<value2):
             return f"{name2.name} has a bigger weight"
-        elif(name1.name>name2.name):
+        elif(value1>value2):
             return f"{name1.name} has a bigger weight"
-        elif(name1.name==name2.name):
+        elif(value1==value2):
             return f"Both names are equal"
 
 def main():
@@ -56,3 +60,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
