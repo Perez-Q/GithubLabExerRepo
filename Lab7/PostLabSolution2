@@ -1,0 +1,38 @@
+"""
+File: hoopstatsapp.py
+
+The application for analyzing basketball stats.
+"""
+
+from hoopstatsview import HoopStatsView
+import pandas as pd
+import tkinter as tk
+
+def cleanStats(df):
+    """Cleans the basketball stats DataFrame."""
+    def split_column(df, col_name, new_col1, new_col2):
+        if col_name in df.columns:
+            df[[new_col1, new_col2]] = df[col_name].str.split("-", expand=True).astype(int)
+            df.drop(columns=[col_name], inplace=True)
+
+    split_column(df, "FG", "FGM", "FGA")
+    split_column(df, "3PT", "3PM", "3PA")
+    split_column(df, "FT", "FTM", "FTA")
+
+    column_order = [
+        "MIN", "FGM", "FGA", "FG%", "3PM", "3PA", "3P%", 
+        "FTM", "FTA", "FT%", "REB", "AST", "BLK", "STL", "PF", "TO", "PTS"
+    ]
+    
+    return df[[col for col in column_order if col in df.columns]]
+
+def main():
+    """Creates the data frame and view and starts the app."""
+    frame = pd.read_csv("cleanbrogdonstats.csv")
+    frame = cleanStats(frame)
+    root = tk.Tk() 
+    app = HoopStatsView(frame)  
+    root.mainloop()  
+
+if __name__ == "__main__":
+    main()
