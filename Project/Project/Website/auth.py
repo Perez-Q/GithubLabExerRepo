@@ -56,6 +56,6 @@ def sign_up():
             db.session.add(new_user)
             db.session.commit()
             login_user(user, remember=True)
-            flash('Sigma added! Welcome to the sigma club', category='success')
+            flash('User Added', category='success')
             return redirect(url_for('views.home'))
     return render_template("sign_up.html", user=current_user)
