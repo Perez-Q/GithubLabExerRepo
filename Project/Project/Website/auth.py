@@ -44,13 +44,13 @@ def sign_up():
         if user:
             flash('Email already exists', category = 'error')
         elif len(email) < 4:
-            flash('Email SMALL ASF', category='error')
+            flash('Email is too small', category='error')
         elif len(first_name) < 2:
-            flash('You sure?', category='error')
+            flash('Name too short', category='error')
         elif password1 != password2:
-            flash('Bro *_*', category='error')
+            flash('Incorrect password', category='error')
         elif len(password1) < 7:
-            flash('small password bruh', category='error')
+            flash('Password is too short', category='error')
         else:
             new_user = User(email=email, first_name=first_name, password=generate_password_hash(password1, method='pbkdf2:sha256'))
             db.session.add(new_user)
