@@ -1,4 +1,4 @@
-# 🚗 **Hybrid Car Management System**  
+# 🚗 **Fuel Consumption Tracker**  
 
 ## 📥 **Installation Guide**  
 
