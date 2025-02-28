@@ -12,10 +12,10 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
 
-    from .models import User, Note, HybridCar, FuelUsage  # ✅ Import models first
-    create_database(app)  # ✅ Initialize database before blueprints
+    from .models import User, Note, HybridCar, FuelUsage  
+    create_database(app) 
 
-    from .views import views  # ✅ Now import views
+    from .views import views  
     from .auth import auth
 
     app.register_blueprint(views, url_prefix='/')  
