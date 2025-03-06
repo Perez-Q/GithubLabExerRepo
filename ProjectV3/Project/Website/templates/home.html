@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %}
+{% block content %}
+<br/>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <body style="background-color:rgb(29, 26, 26);">
+    </body>
+    <div class="content-section">
+        <div class="media">
+        <img src="{{ url_for('static', filename='Smiling.jpg') }}" class="rounded-circle account-img" alt="Profile Image">
+          <div class="media-body">
+            <h2 class="account-heading">{{ current_user.first_name }}</h2>
+            <p class="text-third">{{ current_user.email }}</p>
+            <p class="text-third">ABOUT ME PLACE HERE TENTATIVE</p>
+          </div>
+        </div>
+        <div class="caradd">
+            <button style="background-color:rgb(83, 53, 53); border-color:rgb(54, 54, 54)" type="button" class="btn btn-primary">Register Car</button>
+        </div>
+    </div>
+    <br/>
+    <div class="car-container">
+        <h3>Registered Cars</h3>
+        <div class="car-list">
+            {% if cars %}
+                {% for car in cars %}
+                    <div class="car-item">
+                        <p><strong>{{ car.make }} {{ car.model }}</strong> ({{ car.year }})</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>PUT CAR DATABASE HERE + CAR REGIST</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+{% endblock %}
