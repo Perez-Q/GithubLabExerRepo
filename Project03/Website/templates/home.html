@@ -62,7 +62,7 @@
                                 {% endfor %}
                             </ul>
                             
-                            <canvas id="fuelChart"></canvas>
+                            <canvas id="fuelChart-{{ car.id }}"></canvas> 
 
                             <button class="btn btn-danger" onclick="confirmDelete('{{ car.id }}')">Delete Car</button>
                         </div>
@@ -113,59 +113,58 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        ctx = document.getElementById('fuelChart').getContext('2d');
-        fuelData = [];  // Extracting data from Flask context
-        distanceData = [];
-        daysData = [];
-        labels = [];
-
         {% for car in cars %}
+            var ctx = document.getElementById('fuelChart-{{ car.id }}').getContext('2d');
+            var fuelData = [];
+            var distanceData = [];
+            var daysData = [];
+            var labels = [];
+
             {% for log in car.fuel_logs %}
                 labels.push("{{ log.date.strftime('%Y-%m-%d') }}");
                 fuelData.push({{ log.fuel_used }});
                 distanceData.push({{ log.distance_traveled }});
                 daysData.push({{ log.days_consumed }});
             {% endfor %}
-        {% endfor %}
 
-        // Create the chart
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'Fuel Used (L)',
-                        data: fuelData,
-                        borderColor: 'red',
-                        fill: false
-                    },
-                    {
-                        label: 'Distance Traveled (km)',
-                        data: distanceData,
-                        borderColor: 'blue',
-                        fill: false
-                    },
-                    {
-                        label: 'Days Consumed',
-                        data: daysData,
-                        borderColor: 'green',
-                        fill: false
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        title: { display: true, text: 'Date' }
-                    },
-                    y: {
-                        title: { display: true, text: 'Value' }
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Fuel Used (L)',
+                            data: fuelData,
+                            borderColor: 'red',
+                            fill: false
+                        },
+                        {
+                            label: 'Distance Traveled (km)',
+                            data: distanceData,
+                            borderColor: 'blue',
+                            fill: false
+                        },
+                        {
+                            label: 'Days Consumed',
+                            data: daysData,
+                            borderColor: 'green',
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Date' }
+                        },
+                        y: {
+                            title: { display: true, text: 'Value' }
+                        }
                     }
                 }
-            }
-        });
+            });
+        {% endfor %}
     });
 </script>
 
