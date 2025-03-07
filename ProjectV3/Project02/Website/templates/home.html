@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<br/>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body style="background-color:rgb(29, 26, 26);">
+    <div class="content-section">
+        <div class="media">
+            <div class="media-body">
+                <h2 class="account-heading">{{ current_user.first_name }}</h2>
+                <p class="text-third">{{ current_user.email }}</p>
+                <p class="text-third">ABOUT ME PLACE HERE TENTATIVE</p>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="container">
+        <div class="register-car-section">
+            <h3>Register a Car</h3>
+            <form method="POST" action="{{ url_for('views.register_car') }}" class="register-form">
+                <input type="text" name="make" placeholder="Make (e.g., Toyota)" required>
+                <input type="text" name="model" placeholder="Model (e.g., Prius)" required>
+                <input type="number" name="year" placeholder="Year (e.g., 2022)" required>
+                <input type="number" step="0.1" name="battery_capacity_kWh" placeholder="Battery Capacity (kWh)">
+                <input type="number" step="0.1" name="fuel_efficiency_mpg" placeholder="Fuel Efficiency (MPG)">
+                <button type="submit" class="btn btn-primary">Register Car</button>
+            </form>
+        </div>
+        <br/>
+        <div class="registered-cars-section">
+            <h1>Registered Cars</h1>
+            {% if cars %}
+                <div class="car-grid">
+                    {% for car in cars %}
+                        <div class="car-widget">
+                            <img id="randomImage" class="car-icon" width="100px", height="100px">
+                            <h4>{{ car.make }} {{ car.model }} ({{ car.year }})</h4>
+                            <p><strong>Battery Capacity:</strong> {{ car.battery_capacity_kWh or 'N/A' }} kWh</p>
+                            <p><strong>Fuel Efficiency:</strong> {{ car.fuel_efficiency_mpg or 'N/A' }} MPG</p>
+                            
+                            <button onclick="toggleFuelLogForm('{{ car.id }}')" class="btn btn-secondary">Log Fuel Usage</button>
+
+                            <div id="fuel-log-form-{{ car.id }}" class="fuel-log-form">
+                                <form method="POST" action="{{ url_for('views.log_fuel', car_id=car.id) }}">
+                                    <input type="number" step="0.1" name="fuel_used" placeholder="Fuel Used (liters)" required>
+                                    <input type="number" step="0.1" name="distance_traveled" placeholder="Distance Traveled (km)" required>
+                                    <button type="submit" class="btn btn-success">Submit Fuel Log</button>
+                                </form>
+                            </div>
+
+                            <h5>Fuel Logs</h5>
+                            <ul class="fuel-log-list">
+                                {% for log in car.fuel_logs %}
+                                    <li>{{ log.date.strftime('%Y-%m-%d') }} - {{ log.fuel_used }}L used for {{ log.distance_traveled }}km</li>
+                                {% endfor %}
+                            </ul>
+
+                            <button class="btn btn-danger" onclick="confirmDelete('{{ car.id }}')">Delete Car</button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No registered cars. Please register a car above.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        function toggleFuelLogForm(carId) {
+            var form = document.getElementById('fuel-log-form-' + carId);
+            form.style.display = (form.style.display === 'none' || form.style.display === '') ? 'block' : 'none';
+        }
+
+        function confirmDelete(carId) {
+            if (confirm("Are you sure you want to delete this car? Deleting this will erase all the log data.")) {
+                fetch(`/delete_car/${carId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(response => {
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        alert("Error deleting car. Try again.");
+                    }
+                });
+            }
+        }
+
+        function randomizeImage() {
+            let images = [
+                "{{ url_for('static', filename='hatchback.png') }}",
+                "{{ url_for('static', filename='car.png') }}",
+                "{{ url_for('static', filename='sedan.png') }}",
+            ];
+
+            let randomIndex = Math.floor(Math.random() * images.length);
+            document.getElementById("randomImage").src = images[randomIndex];
+        }
+        // Call the function when the page loads
+        window.onload = randomizeImage;
+    </script>
+
+</body>
+{% endblock %}
